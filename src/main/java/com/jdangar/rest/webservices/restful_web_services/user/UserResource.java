@@ -17,17 +17,23 @@ public class UserResource {
     }
 
     @GetMapping(path = "/users")
-    public List<User> retrieveAllUsers(){
+    public List<User> retrieveAllUsers() {
         return userDaoService.getUsers();
     }
 
     @GetMapping(path = "/users/{id}")
-    public User retrieveUser(@PathVariable Integer id){
-        return userDaoService.findUser(id);
+    public User retrieveUser(@PathVariable Integer id) {
+        User user = userDaoService.findUser(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("id:" + id);
+        }
+
+        return user;
     }
 
     @PostMapping(path = "/users")
-    public ResponseEntity<Object> saveUser(@RequestBody User user){
+    public ResponseEntity<Object> saveUser(@RequestBody User user) {
         User savedUser = userDaoService.save(user);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
