@@ -1,5 +1,6 @@
 package com.jdangar.rest.webservices.restful_web_services.user;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,7 +34,7 @@ public class UserResource {
     }
 
     @PostMapping(path = "/users")
-    public ResponseEntity<Object> saveUser(@RequestBody User user) {
+    public ResponseEntity<Object> saveUser(@Valid @RequestBody User user) {
         User savedUser = userDaoService.save(user);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
