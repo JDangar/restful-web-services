@@ -1,5 +1,6 @@
 package com.jdangar.rest.webservices.restful_web_services.jpa;
 
+import com.jdangar.rest.webservices.restful_web_services.user.Post;
 import com.jdangar.rest.webservices.restful_web_services.user.User;
 import com.jdangar.rest.webservices.restful_web_services.user.UserNotFoundException;
 import jakarta.validation.Valid;
@@ -64,5 +65,16 @@ public class UserJpaResource {
         }
 
         userRepository.deleteById(id);
+    }
+
+    @GetMapping(path = "/jpa/users/{id}/posts")
+    public List<Post> retrievePostsForUser(@PathVariable int id){
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null){
+            throw new UserNotFoundException("id: "+id);
+        }
+
+        return user.getPosts();
     }
 }
